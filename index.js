@@ -14,12 +14,20 @@ const question = [
 		type: "input",
 		message: "what do you want to cypher today?",
 		validate: (val)=>{
-		console.log(typeof val)
 			if(typeof val == 'string') {
 				return true
 			} else{
 				return "please, insert needs to be a text"
 			}
+		}
+	},
+	{
+		name: "jumps",
+		type: "input",
+		message: "how many jumps do you wanna use in this encryption?",
+		validate: (val) => {
+       		if(typeof parseInt(val) == 'number') return true
+			else return "please insert a number"
 		}
 	}
 ]
@@ -32,15 +40,14 @@ const toCesar = (jump,char) => {
      return chars[find];
 }
  
-const caesarize = word => {
-      return word.split("").map( p => toCesar(2,p)).join("");
-}
-
+const caesarize = (word,jumps) => {
+      return word.split("").map( p => toCesar(jumps,p)).join("");
+      }
+      
 const run = async (questions) => {
 
 	const text = await  inquirer.prompt(questions)
-	const cypher =  caesarize(text.text)
-
+	const cypher =  caesarize(text.text,parseInt(text.jumps))
 	console.log(
 		chalk.green("......the cypher is: ")
 	)
